@@ -171,7 +171,7 @@
 </div>
 <button id="pauseBtn">⏸ Pausar</button>
 <div id="bossbar">
-  <div class="label" id="bossname">DRAGÃO SOMBRIO</div>
+  <div class="label" id="bossname">DINDO TOMATOA</div>
   <div class="track"><div class="fill" id="bossfill"></div></div>
 </div>
 
@@ -181,8 +181,8 @@
     <p class="subtitle">🐉 Uma aventura nas nuvens 🐉</p>
     <div class="story">
       O Guto tem 5 anos e um melhor amigo muito especial: <b>Faísca</b>, um dragão azul que cospe fogo dourado!
-      Mas os <b>dragões sombrios</b> invadiram o céu e querem apagar todas as estrelas.
-      Suba na garupa do Faísca e proteja o reino das nuvens!
+      Mas os <b>dragões sombrios</b> do caranguejo gigante <b>Dindo Tomatoa</b> 🦀 invadiram o céu e querem apagar todas as estrelas.
+      Com a ajuda da irmãzinha <b>Bebel</b> 📸 e da fadinha <b>Lelê</b> 🧚, suba na garupa do Faísca e proteja o reino das nuvens!
     </div>
     <button class="btn" id="startBtn">🔥 VOAR!</button>
     <p class="controls-hint">
@@ -365,7 +365,7 @@ const player = {
   x: 200, y: 300, vx: 0, vy: 0, r: 34,
   hp: 3, maxHp: 3, inv: 0,
   fireCd: 0, fireRate: 0.22,
-  triple: 0, shield: 0, frenzy: 0, buddy: 0,
+  triple: 0, shield: 0, fairy: 0, buddy: 0,
   burstCd: 0, wing: 0, tilt: 0,
   buddyAngle: 0,
 };
@@ -639,6 +639,148 @@ function drawGuto(x, y, scale, wing, tilt) {
   ctx.restore();
 }
 
+/* Bebel — a irmãzinha fotógrafa, flutuando com o celular */
+function drawBebel(x, y, s, t) {
+  ctx.save();
+  ctx.translate(x, y);
+  ctx.scale(s, s);
+  const bob = Math.sin(t * 3) * 2;
+  ctx.translate(0, bob);
+  // vestido rosa
+  ctx.fillStyle = '#ff7bac';
+  ctx.beginPath(); ctx.moveTo(-7, 14); ctx.lineTo(0, -2); ctx.lineTo(7, 14); ctx.closePath(); ctx.fill();
+  // braços segurando o celular
+  ctx.strokeStyle = '#ffd9b3'; ctx.lineWidth = 3; ctx.lineCap = 'round';
+  ctx.beginPath(); ctx.moveTo(3, 2); ctx.lineTo(9, -1); ctx.stroke();
+  // cabeça
+  ctx.fillStyle = '#ffd9b3';
+  ctx.beginPath(); ctx.arc(0, -8, 7, 0, TAU); ctx.fill();
+  // cabelo com maria-chiquinhas
+  ctx.fillStyle = '#4a2c12';
+  ctx.beginPath(); ctx.arc(0, -10, 7, Math.PI * 0.9, Math.PI * 2.1); ctx.fill();
+  ctx.beginPath(); ctx.arc(-8, -13, 3.2, 0, TAU); ctx.fill();
+  ctx.beginPath(); ctx.arc(8, -13, 3.2, 0, TAU); ctx.fill();
+  // lacinhos
+  ctx.fillStyle = '#ffe259';
+  ctx.beginPath(); ctx.arc(-8, -16, 1.6, 0, TAU); ctx.fill();
+  ctx.beginPath(); ctx.arc(8, -16, 1.6, 0, TAU); ctx.fill();
+  // olhos e sorriso
+  ctx.fillStyle = '#222';
+  ctx.beginPath(); ctx.arc(-2.5, -8, 1.1, 0, TAU); ctx.fill();
+  ctx.beginPath(); ctx.arc(2.5, -8, 1.1, 0, TAU); ctx.fill();
+  ctx.strokeStyle = '#222'; ctx.lineWidth = 1.2;
+  ctx.beginPath(); ctx.arc(0, -6, 2.5, 0.3, Math.PI - 0.3); ctx.stroke();
+  // celular
+  ctx.fillStyle = '#333';
+  ctx.beginPath(); ctx.roundRect(8, -6, 6.5, 11, 1.5); ctx.fill();
+  ctx.fillStyle = '#7ec8ff';
+  ctx.fillRect(9.2, -4.8, 4.1, 8.6);
+  ctx.restore();
+}
+
+/* Lelê — a fadinha da proteção mágica */
+function drawFairy(x, y, s, t) {
+  ctx.save();
+  ctx.translate(x, y);
+  ctx.scale(s, s);
+  const fl = Math.sin(t * 14) * 0.5;
+  // asinhas brilhantes
+  ctx.fillStyle = 'rgba(225,190,255,.85)';
+  ctx.save(); ctx.rotate(-0.4 - fl * 0.4);
+  ctx.beginPath(); ctx.ellipse(-5, -4, 6.5, 3, 0.6, 0, TAU); ctx.fill();
+  ctx.restore();
+  ctx.save(); ctx.rotate(0.4 + fl * 0.4);
+  ctx.beginPath(); ctx.ellipse(5, -4, 6.5, 3, -0.6, 0, TAU); ctx.fill();
+  ctx.restore();
+  // vestidinho lilás
+  ctx.fillStyle = '#b06ee8';
+  ctx.beginPath(); ctx.moveTo(-4.5, 8); ctx.lineTo(0, -1); ctx.lineTo(4.5, 8); ctx.closePath(); ctx.fill();
+  // cabeça
+  ctx.fillStyle = '#ffd9b3';
+  ctx.beginPath(); ctx.arc(0, -5, 4.2, 0, TAU); ctx.fill();
+  // cabelo dourado
+  ctx.fillStyle = '#f4c430';
+  ctx.beginPath(); ctx.arc(0, -6.5, 4.2, Math.PI * 0.9, Math.PI * 2.1); ctx.fill();
+  // sorriso
+  ctx.strokeStyle = '#222'; ctx.lineWidth = 0.9;
+  ctx.beginPath(); ctx.arc(0, -4, 1.6, 0.3, Math.PI - 0.3); ctx.stroke();
+  // varinha com estrela
+  ctx.strokeStyle = '#fff'; ctx.lineWidth = 1.4;
+  ctx.beginPath(); ctx.moveTo(4, 0); ctx.lineTo(9, -4); ctx.stroke();
+  ctx.fillStyle = '#ffe259';
+  ctx.save(); ctx.shadowColor = '#ffe259'; ctx.shadowBlur = 8;
+  ctx.beginPath(); ctx.arc(9.5, -4.5, 2.2, 0, TAU); ctx.fill();
+  ctx.restore();
+  ctx.restore();
+}
+
+/* Dindo Tomatoa — o caranguejo gigante chefão */
+function drawCrab(x, y, s, t) {
+  ctx.save();
+  ctx.translate(x, y);
+  ctx.scale(s, s);
+  const snap = Math.sin(t * 4);
+  // pernas (3 de cada lado)
+  ctx.strokeStyle = '#8f2417'; ctx.lineWidth = 7; ctx.lineCap = 'round';
+  for (let side = -1; side <= 1; side += 2) {
+    for (let i = 0; i < 3; i++) {
+      const lx = side * (36 + i * 10), ly = 16 + i * 6;
+      const wig = Math.sin(t * 6 + i * 1.3 + side) * 4;
+      ctx.beginPath();
+      ctx.moveTo(side * 28, 10 + i * 5);
+      ctx.quadraticCurveTo(lx, ly + wig, lx + side * 12, ly + 20 + wig);
+      ctx.stroke();
+    }
+  }
+  // braços e garras enormes
+  for (let side = -1; side <= 1; side += 2) {
+    ctx.strokeStyle = '#b23522'; ctx.lineWidth = 10;
+    ctx.beginPath(); ctx.moveTo(side * 30, 0); ctx.quadraticCurveTo(side * 48, -14, side * 56, -10); ctx.stroke();
+    ctx.save();
+    ctx.translate(side * 66, -10);
+    ctx.rotate(side * snap * 0.2);
+    ctx.fillStyle = '#d64530';
+    ctx.beginPath(); ctx.ellipse(0, 0, 22, 17, side * 0.4, 0, TAU); ctx.fill();
+    // pinça aberta
+    ctx.fillStyle = '#8f2417';
+    ctx.beginPath();
+    ctx.moveTo(side * 12, -8);
+    ctx.lineTo(side * 26, -18 - snap * 5);
+    ctx.lineTo(side * 20, -1);
+    ctx.closePath(); ctx.fill();
+    ctx.restore();
+  }
+  // corpo
+  ctx.fillStyle = '#d64530';
+  ctx.beginPath(); ctx.ellipse(0, 0, 46, 34, 0, 0, TAU); ctx.fill();
+  ctx.fillStyle = '#ff8a5c';
+  ctx.beginPath(); ctx.ellipse(0, 12, 32, 17, 0, 0, TAU); ctx.fill();
+  // pintinhas na casca
+  ctx.fillStyle = 'rgba(255,255,255,.25)';
+  for (const [px, py] of [[-18, -14], [0, -20], [18, -12]]) {
+    ctx.beginPath(); ctx.arc(px, py, 4, 0, TAU); ctx.fill();
+  }
+  // olhos em hastes
+  for (let side = -1; side <= 1; side += 2) {
+    ctx.strokeStyle = '#8f2417'; ctx.lineWidth = 5;
+    ctx.beginPath(); ctx.moveTo(side * 12, -28); ctx.lineTo(side * 16, -46); ctx.stroke();
+    ctx.fillStyle = '#ffdd44';
+    ctx.beginPath(); ctx.arc(side * 16, -50, 7, 0, TAU); ctx.fill();
+    ctx.fillStyle = '#c40000';
+    ctx.beginPath(); ctx.arc(side * 16 - side * 2, -50, 3.2, 0, TAU); ctx.fill();
+    // sobrancelha brava
+    ctx.strokeStyle = 'rgba(0,0,0,.65)'; ctx.lineWidth = 3;
+    ctx.beginPath(); ctx.moveTo(side * 9, -58); ctx.lineTo(side * 22, -54); ctx.stroke();
+  }
+  // boca brava em zigue-zague
+  ctx.strokeStyle = '#5c1208'; ctx.lineWidth = 3; ctx.lineCap = 'round';
+  ctx.beginPath();
+  ctx.moveTo(-10, -2);
+  ctx.lineTo(-5, 2); ctx.lineTo(0, -2); ctx.lineTo(5, 2); ctx.lineTo(10, -2);
+  ctx.stroke();
+  ctx.restore();
+}
+
 /* ============================================================
    TIPOS DE INIMIGOS
    ============================================================ */
@@ -664,17 +806,16 @@ function spawnEnemy(type) {
 
 function spawnBoss() {
   G.bossActive = true;
-  const names = ['MALVAGO, O SOMBRIO', 'FURACÃO NEGRO', 'GARRA DE FERRO', 'REI DAS TREVAS', 'ABISMO ALADO'];
   const lvl = Math.floor(G.wave / 5);
   boss = {
-    name: names[(lvl - 1) % names.length],
+    name: 'DINDO TOMATOA' + (lvl > 1 ? ' ' + '★'.repeat(Math.min(lvl - 1, 5)) : ''),
     hp: 60 + lvl * 45, maxHp: 60 + lvl * 45,
     x: W + 200, y: H / 2, r: 85,
     phase: 0, wing: 0, mode: 'enter', modeT: 0,
     shootCd: 1.2, flashT: 0, lvl,
-    colors: ['#2c003e', '#8b46b3', '#12001a'],
+    ringsLeft: 0, ringTimer: 0, ringAngle: 0, spiral: 0,
   };
-  document.getElementById('bossname').textContent = '🐲 ' + boss.name;
+  document.getElementById('bossname').textContent = '🦀 ' + boss.name;
   document.getElementById('bossbar').style.display = 'block';
   AudioSys.roar();
   addText(W / 2, H / 2 - 60, '⚠️ CHEFÃO! ⚠️', '#ff5577', 34, 2);
@@ -703,14 +844,12 @@ function addText(x, y, str, color, size = 18, life = 1) {
    TIROS
    ============================================================ */
 function firePlayer() {
-  const rate = player.frenzy > 0 ? player.fireRate * 0.45 : player.fireRate;
   if (player.fireCd > 0) return;
-  player.fireCd = rate;
+  player.fireCd = player.fireRate;
   const px = player.x + 40, py = player.y - 6;
   const mk = (a) => bullets.push({ x: px, y: py, vx: Math.cos(a) * 620, vy: Math.sin(a) * 620, r: 8, dmg: 1 });
   mk(0);
   if (player.triple > 0) { mk(-0.22); mk(0.22); }
-  if (player.frenzy > 0) { mk(-0.11); mk(0.11); }
   AudioSys.shoot();
   burst(px, py, 2, ['#ffdd55', '#ff9922'], 80, 0.25, 3);
 }
@@ -740,8 +879,8 @@ const POWERS = [
   { id: 'triple', emoji: '🔱', label: 'FOGO TRIPLO!', color: '#66ddff' },
   { id: 'shield', emoji: '🛡️', label: 'ESCUDO!', color: '#7dffb0' },
   { id: 'heart',  emoji: '❤️', label: '+1 VIDA!', color: '#ff7788' },
-  { id: 'frenzy', emoji: '⭐', label: 'SUPER FAÍSCA!', color: '#ffdd44' },
-  { id: 'buddy',  emoji: '🐣', label: 'FILHOTE AMIGO!', color: '#ffb3f2' },
+  { id: 'fairy',  emoji: '🧚', label: 'LELÊ MÁGICA!', color: '#e0a6ff' },
+  { id: 'buddy',  emoji: '📸', label: 'BEBEL FOTÓGRAFA!', color: '#ffb3f2' },
 ];
 function maybeDropPower(x, y, chance = 0.14) {
   if (Math.random() > chance) return;
@@ -758,7 +897,7 @@ function applyPower(p) {
     case 'triple': player.triple = 12; break;
     case 'shield': player.shield = 10; break;
     case 'heart': player.hp = Math.min(player.maxHp, player.hp + 1); AudioSys.heal(); break;
-    case 'frenzy': player.frenzy = 8; break;
+    case 'fairy': player.fairy = 8; break;
     case 'buddy': player.buddy = 15; break;
   }
   updateHUD();
@@ -813,6 +952,12 @@ function nextWave() {
    ============================================================ */
 function damagePlayer() {
   if (player.inv > 0) return;
+  if (player.fairy > 0) {
+    // a magia da Lelê protege!
+    AudioSys.tone(900, .12, 'triangle', .12, 1400);
+    burst(player.x, player.y - 6, 10, ['#e0a6ff', '#fff'], 200, 0.5, 4);
+    return;
+  }
   if (player.shield > 0) {
     player.shield = 0;
     player.inv = 1.5;
@@ -950,24 +1095,35 @@ function update(dt) {
   player.inv -= dt;
   player.triple = Math.max(0, player.triple - dt);
   player.shield = Math.max(0, player.shield - dt);
-  player.frenzy = Math.max(0, player.frenzy - dt);
+  player.fairy = Math.max(0, player.fairy - dt);
   player.buddy = Math.max(0, player.buddy - dt);
   firePlayer(); // Faísca cospe fogo sozinho!
 
-  // filhote ajudante
+  // Bebel fotografando os dragões malvados
   if (player.buddy > 0) {
     player.buddyAngle += dt * 3;
     const bx = player.x - 60 + Math.cos(player.buddyAngle) * 24;
     const by = player.y - 40 + Math.sin(player.buddyAngle) * 18;
     if (Math.random() < dt * 3.5) {
-      bullets.push({ x: bx + 14, y: by, vx: 620, vy: rand(-40, 40), r: 6, dmg: 1 });
+      bullets.push({ x: bx + 14, y: by - 2, vx: 620, vy: rand(-40, 40), r: 6, dmg: 1, flash: true });
+      burst(bx + 12, by - 4, 4, ['#ffffff', '#cfeaff'], 130, 0.3, 3); // clarão da foto!
     }
+  }
+
+  // brilhinhos da bolha mágica da Lelê
+  if (player.fairy > 0 && Math.random() < dt * 22) {
+    const a = rand(0, TAU);
+    particles.push({
+      x: player.x + Math.cos(a) * 78, y: player.y - 6 + Math.sin(a) * 78,
+      vx: rand(-20, 20), vy: rand(-20, 20),
+      life: 0.5, maxLife: 0.5, c: ['#e0a6ff', '#fff', '#ffd9ff'][randInt(0, 2)], s: rand(1.5, 3), grav: 0,
+    });
   }
 
   // rastro do Faísca
   if (Math.random() < dt * 40) {
-    const cs = player.frenzy > 0
-      ? ['#ff5577', '#ffaa33', '#ffe259', '#7dffb0', '#66ddff', '#c39bd3'][randInt(0, 5)]
+    const cs = player.fairy > 0
+      ? ['#e0a6ff', '#fff', '#ffd9ff', '#c9a0ff'][randInt(0, 3)]
       : (Math.random() < 0.5 ? '#88ccff' : '#ffffff');
     particles.push({
       x: player.x - 40, y: player.y + rand(-8, 12),
@@ -1068,6 +1224,12 @@ function update(dt) {
     const b = enemyBullets[i];
     b.x += b.vx * dt; b.y += b.vy * dt;
     if (b.x < -30 || b.x > W + 30 || b.y < -30 || b.y > H + 30) { enemyBullets.splice(i, 1); continue; }
+    // a bolha mágica da Lelê desmancha as bolinhas malvadas
+    if (player.fairy > 0 && dist2(b.x, b.y, player.x, player.y - 6) < 78 * 78) {
+      enemyBullets.splice(i, 1);
+      burst(b.x, b.y, 6, ['#e0a6ff', '#fff'], 150, 0.4, 3);
+      continue;
+    }
     if (player.inv <= 0 && dist2(b.x, b.y, player.x, player.y) < (b.r + player.r * 0.6) ** 2) {
       enemyBullets.splice(i, 1);
       damagePlayer();
@@ -1116,15 +1278,12 @@ function updateBoss(dt) {
   } else if (boss.mode === 'hover') {
     boss.x = lerp(boss.x, W - 190, dt);
     boss.y = H / 2 + Math.sin(boss.phase * 1.4) * (H * 0.3);
+    // bolinhas em todas as direções, várias rodadas seguidas
     boss.shootCd -= dt;
-    if (boss.shootCd <= 0) {
-      boss.shootCd = Math.max(0.5, 1.1 - boss.lvl * 0.1);
-      // leque de fogo
-      for (let k = -1; k <= 1; k++) {
-        const a = Math.atan2(player.y - boss.y, player.x - boss.x) + k * 0.22;
-        enemyBullets.push({ x: boss.x - 60, y: boss.y, vx: Math.cos(a) * 270 * speedUp, vy: Math.sin(a) * 270 * speedUp, r: 11 });
-      }
-      AudioSys.tone(160, .15, 'sawtooth', .1, 90);
+    if (boss.shootCd <= 0 && boss.ringsLeft <= 0) {
+      boss.shootCd = Math.max(1.5, 2.6 - boss.lvl * 0.15);
+      boss.ringsLeft = 2 + Math.min(boss.lvl, 4);
+      boss.ringTimer = 0;
     }
     if (boss.modeT > 6) { boss.mode = 'charge'; boss.modeT = 0; AudioSys.roar(); addText(boss.x - 80, boss.y - 90, '💨 INVESTIDA!', '#ff8fa3', 20, 1); }
   } else if (boss.mode === 'charge') {
@@ -1142,15 +1301,35 @@ function updateBoss(dt) {
     if (boss.modeT > 1.6) { boss.mode = 'rain'; boss.modeT = 0; }
   } else if (boss.mode === 'rain') {
     boss.y = H / 2 + Math.sin(boss.phase * 3) * (H * 0.34);
+    // espiral giratório de bolinhas
     boss.shootCd -= dt;
     if (boss.shootCd <= 0) {
-      boss.shootCd = Math.max(0.22, 0.5 - boss.lvl * 0.04);
-      enemyBullets.push({ x: boss.x - 60, y: boss.y, vx: -340 * speedUp, vy: rand(-110, 110), r: 10 });
-      AudioSys.tone(190, .08, 'square', .06, 110);
+      boss.shootCd = Math.max(0.09, 0.13 - boss.lvl * 0.008);
+      boss.spiral += 0.5;
+      for (const a of [boss.spiral, boss.spiral + Math.PI]) {
+        enemyBullets.push({ x: boss.x, y: boss.y, vx: Math.cos(a) * 230 * speedUp, vy: Math.sin(a) * 230 * speedUp, r: 8 });
+      }
+      AudioSys.tone(190, .06, 'square', .04, 110);
     }
-    if (boss.modeT > 4.5) { boss.mode = 'hover'; boss.modeT = 0; }
+    if (boss.modeT > 4) { boss.mode = 'hover'; boss.modeT = 0; }
   }
   boss.y = clamp(boss.y, 110, H - 120);
+
+  // dispara as rodadas de bolinhas em círculo (uma atrás da outra)
+  if (boss.ringsLeft > 0) {
+    boss.ringTimer -= dt;
+    if (boss.ringTimer <= 0) {
+      boss.ringTimer = 0.3;
+      boss.ringsLeft--;
+      boss.ringAngle += 0.31;
+      const n = 10;
+      for (let k = 0; k < n; k++) {
+        const a = boss.ringAngle + (k / n) * TAU;
+        enemyBullets.push({ x: boss.x, y: boss.y, vx: Math.cos(a) * 210 * speedUp, vy: Math.sin(a) * 210 * speedUp, r: 9 });
+      }
+      AudioSys.tone(150, .12, 'square', .09, 90);
+    }
+  }
 
   // colisão corpo a corpo
   if (player.inv <= 0 && dist2(boss.x, boss.y, player.x, player.y) < (boss.r * 0.75 + player.r * 0.7) ** 2) {
@@ -1277,12 +1456,13 @@ function drawAll() {
       ctx.restore();
     }
 
-    // balas do jogador (fogo dourado)
+    // balas do jogador (fogo dourado / flash da Bebel)
     for (const b of bullets) {
       ctx.save();
-      ctx.shadowColor = '#ffaa00'; ctx.shadowBlur = 12;
+      ctx.shadowColor = b.flash ? '#aaddff' : '#ffaa00'; ctx.shadowBlur = 12;
       const g2 = ctx.createRadialGradient(b.x, b.y, 1, b.x, b.y, b.r);
-      g2.addColorStop(0, '#fff'); g2.addColorStop(0.4, '#ffe259'); g2.addColorStop(1, '#ff7b2e');
+      if (b.flash) { g2.addColorStop(0, '#fff'); g2.addColorStop(0.5, '#e8f6ff'); g2.addColorStop(1, '#66aaff'); }
+      else { g2.addColorStop(0, '#fff'); g2.addColorStop(0.4, '#ffe259'); g2.addColorStop(1, '#ff7b2e'); }
       ctx.fillStyle = g2;
       ctx.beginPath(); ctx.arc(b.x, b.y, b.r, 0, TAU); ctx.fill();
       // rabinho de cometa
@@ -1306,21 +1486,21 @@ function drawAll() {
       }
     }
 
-    // chefe
+    // chefe — Dindo Tomatoa, o caranguejo gigante
     if (boss) {
       ctx.save();
       if (boss.flashT > 0) ctx.filter = 'brightness(2.2)';
-      // aura sombria
-      ctx.shadowColor = '#8b46b3'; ctx.shadowBlur = 40;
-      drawDragon(boss.x, boss.y, 2.4 + boss.lvl * 0.15, boss.colors, boss.wing, -1, true);
+      // aura ameaçadora
+      ctx.shadowColor = '#ff5533'; ctx.shadowBlur = 40;
+      drawCrab(boss.x, boss.y, 1.15 + boss.lvl * 0.08, boss.wing);
       ctx.restore();
     }
 
-    // filhote ajudante
+    // Bebel, a irmãzinha fotógrafa
     if (player.buddy > 0 && G.state === 'playing') {
       const bx = player.x - 60 + Math.cos(player.buddyAngle) * 24;
       const by = player.y - 40 + Math.sin(player.buddyAngle) * 18;
-      drawDragon(bx, by, 0.35, ['#ff9ecd', '#ffd6ea', '#e06aa8'], player.wing * 1.6, 1, false);
+      drawBebel(bx, by, 1.4, G.time);
     }
 
     // jogador (Faísca + Guto)
@@ -1337,17 +1517,26 @@ function drawAll() {
           ctx.beginPath(); ctx.arc(player.x, player.y - 8, 58, 0, TAU); ctx.stroke();
           ctx.restore();
         }
-        // brilho do frenzy
-        if (player.frenzy > 0) {
+        // bolha mágica da Lelê
+        if (player.fairy > 0) {
           ctx.save();
-          ctx.globalAlpha = 0.25 + Math.sin(G.time * 10) * 0.1;
-          const hue = (G.time * 200) % 360;
-          ctx.fillStyle = `hsl(${hue}, 100%, 65%)`;
-          ctx.beginPath(); ctx.arc(player.x, player.y - 6, 60, 0, TAU); ctx.fill();
+          const pulse = 0.8 + Math.sin(G.time * 5) * 0.2;
+          ctx.globalAlpha = 0.22 * pulse;
+          ctx.fillStyle = '#c9a0ff';
+          ctx.beginPath(); ctx.arc(player.x, player.y - 6, 78, 0, TAU); ctx.fill();
+          ctx.globalAlpha = 0.8;
+          ctx.strokeStyle = '#e0a6ff'; ctx.lineWidth = 3;
+          ctx.shadowColor = '#c9a0ff'; ctx.shadowBlur = 18;
+          ctx.beginPath(); ctx.arc(player.x, player.y - 6, 78, 0, TAU); ctx.stroke();
           ctx.restore();
         }
         drawDragon(player.x, player.y, 1.08, ['#2e86de', '#8fd0ff', '#1b4f8a'], player.wing, 1, false, player.tilt, true);
         drawGuto(player.x, player.y, 1.08, player.wing, player.tilt);
+        // Lelê voando em volta da bolha
+        if (player.fairy > 0) {
+          const fa = G.time * 2.2;
+          drawFairy(player.x + Math.cos(fa) * 78, player.y - 6 + Math.sin(fa) * 78, 1.6, G.time);
+        }
       }
     }
 
@@ -1449,8 +1638,8 @@ function updateHUD() {
   const pows = [];
   if (player.triple > 0) pows.push('🔱' + Math.ceil(player.triple));
   if (player.shield > 0) pows.push('🛡️' + Math.ceil(player.shield));
-  if (player.frenzy > 0) pows.push('⭐' + Math.ceil(player.frenzy));
-  if (player.buddy > 0) pows.push('🐣' + Math.ceil(player.buddy));
+  if (player.fairy > 0) pows.push('🧚' + Math.ceil(player.fairy));
+  if (player.buddy > 0) pows.push('📸' + Math.ceil(player.buddy));
   $('power').textContent = pows.join('  ');
 }
 
@@ -1466,7 +1655,7 @@ function startGame() {
   });
   Object.assign(player, {
     x: W * 0.2, y: H / 2, hp: 3, inv: 2, fireCd: 0, burstCd: 0,
-    triple: 0, shield: 0, frenzy: 0, buddy: 0, tilt: 0,
+    triple: 0, shield: 0, fairy: 0, buddy: 0, tilt: 0,
   });
   bullets = []; enemies = []; enemyBullets = []; particles = []; powerups = []; texts = [];
   boss = null;
